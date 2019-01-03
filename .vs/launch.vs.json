@@ -1,0 +1,12 @@
+{
+  "version": "0.2.1",
+  "defaults": {},
+  "configurations": [
+    {
+      "type": "default",
+      "project": "CMakeLists.txt",
+      "projectTarget": "arkanoid.exe (Release\\arkanoid.exe)",
+      "name": "arkanoid.exe (Release\\arkanoid.exe)"
+    }
+  ]
+}

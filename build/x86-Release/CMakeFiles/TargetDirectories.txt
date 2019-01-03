@@ -1,0 +1,3 @@
+C:/Users/Alperen/Desktop/Arkanoid/build/x86-Release/CMakeFiles/arkanoid.dir
+C:/Users/Alperen/Desktop/Arkanoid/build/x86-Release/CMakeFiles/ALL_BUILD.dir
+C:/Users/Alperen/Desktop/Arkanoid/build/x86-Release/CMakeFiles/ZERO_CHECK.dir

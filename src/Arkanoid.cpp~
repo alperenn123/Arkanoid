@@ -1,0 +1,16 @@
+#include <iostream>
+#include <SFML/Graphics.hpp>
+int main()
+{
+	// Create the main window
+	sf::RenderWindow window(sf::VideoMode(800, 600), "Arkanoid V0.1");
+	while (window.isOpen)
+	{
+		sf::Event events;
+		while (window.pollEvent(events))
+		{
+
+		}
+	}
+	return 0;
+}
