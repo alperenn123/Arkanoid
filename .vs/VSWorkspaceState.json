@@ -1,10 +1,12 @@
 {
   "ExpandedNodes": [
     "",
+    "\\build",
+    "\\build\\x86-Debug",
     "\\fonts",
     "\\src",
     "\\textures"
   ],
-  "SelectedNode": "\\fonts\\OpenSans-Regular.ttf",
+  "SelectedNode": "\\CMakeLists.txt",
   "PreviewInSolutionExplorer": false
 }

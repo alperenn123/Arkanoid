@@ -8,9 +8,15 @@ C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/Common7/IDE/Common
 C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.12/Modules/CMakeRCInformation.cmake
 C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.12/Modules/CMakeSystemSpecificInformation.cmake
 C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.12/Modules/CMakeSystemSpecificInitialize.cmake
+C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.12/Modules/CheckIncludeFile.cmake
+C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.12/Modules/CheckLibraryExists.cmake
+C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.12/Modules/CheckSymbolExists.cmake
 C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.12/Modules/Compiler/CMakeCommonCompilerMacros.cmake
 C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.12/Modules/Compiler/MSVC-C.cmake
 C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.12/Modules/Compiler/MSVC-CXX.cmake
+C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.12/Modules/FindPackageHandleStandardArgs.cmake
+C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.12/Modules/FindPackageMessage.cmake
+C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.12/Modules/FindThreads.cmake
 C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.12/Modules/Platform/Windows-MSVC-C.cmake
 C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.12/Modules/Platform/Windows-MSVC-CXX.cmake
 C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.12/Modules/Platform/Windows-MSVC.cmake

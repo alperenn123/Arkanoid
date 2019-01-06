@@ -3,6 +3,8 @@
 #include <time.h>
 #include <sstream>
 #include <iostream>
+#include <chrono>
+#include <thread>
 #define uint8 uint8_t
 #define int8  int8_t 
 #define int64 int64_t
@@ -11,30 +13,40 @@
 
 typedef enum
 {
-	Running = 0,
+	Init = 0,
+	Running,
 	GameOver,
 	Exit
 }GameState;
 typedef struct 
 {
 	GameState eGameState;
-	void Change_State(GameState state)
+	void ChangeState(GameState state)
 	{
 		eGameState = state;
 	}
-	GameState Get_State()
+	GameState GetState()
 	{
 		return this->eGameState;
 	}
 }StateMachine;
  
-
- 
+static void InitializeBlocks
+(
+	sf::Sprite* blocks,
+	const sf::Texture* const t1,
+	const sf::Texture* const t2,
+	const sf::Texture* const t3,
+	const sf::Texture* const t4,
+	const sf::Texture* const t5
+);
+static void InitializeBallPosition(sf::Sprite* ball);
+static void InitializePaddlePosition(sf::Sprite* paddle);
 int main()
 {
 	srand(time(0));
 	StateMachine stateMachine;
-	stateMachine.eGameState = Running;
+	stateMachine.eGameState = Init;
     // Create the main window
     sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Arkanoid V0.1");
 	window.setFramerateLimit(60);
@@ -61,8 +73,7 @@ int main()
 	fScoreFont.loadFromFile("..\\..\\..\\fonts\\OpenSans-Regular.ttf");
 	
 	sf::Sprite sBall(tBall), sPaddle(tPaddle), sBackground(tBackground);
-	sPaddle.setPosition(300, 440);
-	sBall.setPosition(250, 250);
+	
 	sf::Text sScore_Display;
 	sf::Text sGameover_Text;
 	sScore_Display.setFont(fScoreFont);
@@ -71,21 +82,6 @@ int main()
 	sScore_Display.setPosition(0, 0);
 	sf::Sprite sBlocks[80];
 
-	for (int y = 0; y < 5; ++y)
-	{
-		for (int x = 0; x < 16; ++x)
-		{
-			switch (y)
-			{
-				case 0: { sBlocks[y * 16 + x].setTexture(tGreen); sBlocks[y * 16 + x].setPosition(x * 42 , y+1 * 20);  break; }
-				case 1: { sBlocks[y * 16 + x].setTexture(tRed); sBlocks[y * 16 + x].setPosition(x * 42, y+2 * 20); break; }
-				case 2: { sBlocks[y * 16 + x].setTexture(tTurquoise); sBlocks[y * 16 + x].setPosition(x * 42, y+3 * 20); break; }
-				case 3: { sBlocks[y * 16 + x].setTexture(tGrey); sBlocks[y * 16 + x].setPosition(x * 42, y+4 * 20); break; }
-				case 4: { sBlocks[y * 16 + x].setTexture(tNavyBlue); sBlocks[y * 16 + x].setPosition(x * 42, y+5 * 20); break; }
-			}
-			
-		}
-	}
 
 	float dirX = 0.2f;
 	float dirY = 0.2f;
@@ -97,34 +93,63 @@ int main()
 	while (window.isOpen())
     {
 		
-		switch (stateMachine.Get_State())
+		switch (stateMachine.GetState())
 		{
+			case Init:
+			{
+				InitializeBlocks
+				(
+					&sBlocks[0],
+					&tGreen,
+					&tRed,
+					&tTurquoise,
+					&tGrey,
+					&tNavyBlue
+				);
+				InitializeBallPosition(&sBall);
+				InitializePaddlePosition(&sPaddle);
+				dirX = 0.2f;
+				dirY = 0.2f;
+				x = 150.0f;
+				y = 150.0f;
+				score = 0;
+				stateMachine.ChangeState(Running);
+				
+			}break;
 			case Running:
 			{
 				window.setKeyRepeatEnabled(true);
-					
-				
-				sf::Event event;
-				
 				sf::Int32 dTime = clock.restart().asMilliseconds();
 				sf::Vector2f ball_pos = sBall.getPosition();
+				sf::Event event;
 				while (window.pollEvent(event))
 				{
 					
 					if (event.type == sf::Event::Closed)
-						stateMachine.Change_State(Exit);
+						stateMachine.ChangeState(Exit);
 				}
-
 				if (ball_pos.y > SCREEN_HEIGHT)
-					stateMachine.Change_State(GameOver);
+				{
+					stateMachine.ChangeState(GameOver);
+				}	
 				else
 				{
 					if (ball_pos.x < 0 || ball_pos.x > SCREEN_WIDTH)  dirX = -dirX;
 					if (ball_pos.y < 0) dirY = -dirY;
+					
 
-					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) sPaddle.move(6, 0);
-					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) sPaddle.move(-6, 0);
-					if (sf::FloatRect(x + 1, y + 1, 12, 12).intersects(sPaddle.getGlobalBounds()))
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) sPaddle.move(5, 0);
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) sPaddle.move(-5, 0);
+					sf::Vector2f paddle_position = sPaddle.getPosition();
+					if (paddle_position.x + 90  > SCREEN_WIDTH)
+					{
+						sPaddle.move(-5, 0);
+					}
+					if (paddle_position.x < 0)
+					{
+						sPaddle.move(5, 0);
+					}
+					if (sf::FloatRect(x, y, 12, 12).intersects(sPaddle.getGlobalBounds()))
 					{
 
 						dirY = -dirY;
@@ -183,30 +208,19 @@ int main()
 				{
 					switch (event.type)
 					{
-					case sf::Event::Closed: {stateMachine.Change_State(Exit); }break;
-						case sf::Event::KeyPressed: 
-						{
-							if (event.key.code == sf::Keyboard::Enter)
-							{
-								stateMachine.Change_State(Running);
-								sBall.setPosition(150, 150);
-								dirX = 0.2f;
-								dirY = 0.2f;
-								 x = 150.0f;
-								 y = 150.0f;
-							}
-							
-						}break;
+					 case sf::Event::Closed: {stateMachine.ChangeState(Exit); }break;
+			
 					}
 				}
 				sGameover_Text.setFont(fScoreFont);
 				sGameover_Text.setCharacterSize(30);
 				sGameover_Text.setColor(sf::Color(0, 0, 0));
 				sGameover_Text.setPosition((SCREEN_HEIGHT-150)/2, (SCREEN_WIDTH-150)/2);
-				sGameover_Text.setString("GAMEOVER!Press Enter to restart...");
+				sGameover_Text.setString("GAMEOVER!!Restarting game");
 				window.draw(sGameover_Text);
 				window.display();
-
+				std::this_thread::sleep_for(std::chrono::seconds(1));
+				stateMachine.ChangeState(Init);
 				
 			}break;
 
@@ -214,7 +228,6 @@ int main()
 			{
 				window.close(); 
 			}break;
-		
 		}
 		
 
@@ -224,4 +237,38 @@ int main()
 		
 		
     return 0;
+}
+static void InitializeBlocks
+(
+	sf::Sprite* blocks,
+	const sf::Texture* const t1,
+	const sf::Texture* const t2,
+	const sf::Texture* const t3,
+	const sf::Texture* const t4,
+	const sf::Texture* const t5
+)
+{
+	for (int y = 0; y < 5; ++y)
+	{
+		for (int x = 0; x < 16; ++x)
+		{
+			switch (y)
+			{
+			case 0: { blocks[y * 16 + x].setTexture(*t1); blocks[y * 16 + x].setPosition(x * 42, y + 1 * 20);  break; }
+			case 1: { blocks[y * 16 + x].setTexture(*t2); blocks[y * 16 + x].setPosition(x * 42, y + 2 * 20); break; }
+			case 2: { blocks[y * 16 + x].setTexture(*t3); blocks[y * 16 + x].setPosition(x * 42, y + 3 * 20); break; }
+			case 3: { blocks[y * 16 + x].setTexture(*t4); blocks[y * 16 + x].setPosition(x * 42, y + 4 * 20); break; }
+			case 4: { blocks[y * 16 + x].setTexture(*t5); blocks[y * 16 + x].setPosition(x * 42, y + 5 * 20); break; }
+			}
+
+		}
+	}
+}
+static void InitializeBallPosition(sf::Sprite* ball)
+{
+	ball->setPosition(250, 250);
+}
+static void InitializePaddlePosition(sf::Sprite* paddle)
+{
+	paddle->setPosition(300, 440);
 }
